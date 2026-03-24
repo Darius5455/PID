@@ -1,4 +1,4 @@
-﻿using Emgu.CV;
+using Emgu.CV;
 using Emgu.CV.Structure;
 
 using System.Windows;
@@ -558,6 +558,38 @@ namespace Framework.ViewModel
         #endregion
 
         #region Filters
+        private ICommand _unsharpMaskCommand;
+        public ICommand UnsharpMaskCommand
+        {
+            get
+            {
+                if (_unsharpMaskCommand == null)
+                    _unsharpMaskCommand = new RelayCommand(UnsharpMaskImg);
+                return _unsharpMaskCommand;
+            }
+        }
+
+        private void UnsharpMaskImg(object parameter)
+        {
+            if (InitialImage == null)
+            {
+                MessageBox.Show("Please add an image!");
+                return;
+            }
+
+            ClearProcessedCanvas(parameter as Canvas);
+
+            if (GrayInitialImage != null)
+            {
+                GrayProcessedImage = Filters.UnsharpMask(GrayInitialImage);
+                ProcessedImage = Convert(GrayProcessedImage);
+            }
+            else if (ColorInitialImage != null)
+            {
+                ColorProcessedImage = Filters.UnsharpMask(ColorInitialImage);
+                ProcessedImage = Convert(ColorProcessedImage);
+            }
+        }
         #endregion
 
         #region Morphological operations

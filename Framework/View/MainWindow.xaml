@@ -1,4 +1,4 @@
-﻿<Window x:Class="Framework.View.MainWindow"
+<Window x:Class="Framework.View.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -207,7 +207,10 @@
                       Foreground="{Binding Path=Theme.MenuItemForegroundColor}">
                 <MenuItem Header="Low-pass"
                           Foreground="#1E1E1E">
-
+                    <MenuItem Header="Unsharp Mask"
+                              Foreground="#1E1E1E"
+                              Command="{Binding Path=MenuCommands.UnsharpMaskCommand}"
+                              CommandParameter="{Binding ElementName=processedImageCanvas}"/>
                 </MenuItem>
                 <MenuItem Header="High-pass"
                           Foreground="#1E1E1E">
