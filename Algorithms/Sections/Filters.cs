@@ -111,6 +111,52 @@ namespace Algorithms.Sections
 
             return result;
         }
+
+        public static Image<Bgr, byte> SobelColor(Image<Bgr, byte> inputImage)
+        {
+            int width = inputImage.Width;
+            int height = inputImage.Height;
+            Image<Bgr, byte> result = new Image<Bgr, byte>(width, height);
+
+            double[,] Sx = new double[,] { { -1, 0, 1 }, { -2, 0, 2 }, { -1, 0, 1 } };
+            double[,] Sy = new double[,] { { -1, -2, -1 }, { 0, 0, 0 }, { 1, 2, 1 } };
+
+            for (int y = 0; y < height; y++)
+            {
+                for (int x = 0; x < width; x++)
+                {
+                    for (int c = 0; c < 3; c++)
+                    {
+                        double sumX = 0;
+                        double sumY = 0;
+
+                        for (int i = -1; i <= 1; i++)
+                        {
+                            for (int j = -1; j <= 1; j++)
+                            {
+                                int ny = y + i;
+                                int nx = x + j;
+
+                                if (ny < 0) ny = 0;
+                                else if (ny >= height) ny = height - 1;
+
+                                if (nx < 0) nx = 0;
+                                else if (nx >= width) nx = width - 1;
+
+                                double val = inputImage.Data[ny, nx, c];
+                                sumX += Sx[i + 1, j + 1] * val;
+                                sumY += Sy[i + 1, j + 1] * val;
+                            }
+                        }
+
+                        double magnitude = Math.Sqrt(sumX * sumX + sumY * sumY);
+                        result.Data[y, x, c] = Utils.Clamp(magnitude);
+                    }
+                }
+            }
+
+            return result;
+        }
     }
 }
-
+

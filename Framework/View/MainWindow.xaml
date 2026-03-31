@@ -214,7 +214,10 @@
                 </MenuItem>
                 <MenuItem Header="High-pass"
                           Foreground="#1E1E1E">
-
+                    <MenuItem Header="Sobel Color"
+                              Foreground="#1E1E1E"
+                              Command="{Binding Path=MenuCommands.SobelColorCommand}"
+                              CommandParameter="{Binding ElementName=processedImageCanvas}"/>
                 </MenuItem>
             </MenuItem>
 

@@ -590,6 +590,37 @@ namespace Framework.ViewModel
                 ProcessedImage = Convert(ColorProcessedImage);
             }
         }
+
+        private ICommand _sobelColorCommand;
+        public ICommand SobelColorCommand
+        {
+            get
+            {
+                if (_sobelColorCommand == null)
+                    _sobelColorCommand = new RelayCommand(SobelColorImg);
+                return _sobelColorCommand;
+            }
+        }
+
+        private void SobelColorImg(object parameter)
+        {
+            if (InitialImage == null)
+            {
+                MessageBox.Show("Please add an image!");
+                return;
+            }
+
+            if (ColorInitialImage == null)
+            {
+                MessageBox.Show("Please load a color image for Sobel Color filter!");
+                return;
+            }
+
+            ClearProcessedCanvas(parameter as Canvas);
+
+            ColorProcessedImage = Filters.SobelColor(ColorInitialImage);
+            ProcessedImage = Convert(ColorProcessedImage);
+        }
         #endregion
 
         #region Morphological operations
