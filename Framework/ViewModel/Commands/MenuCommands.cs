@@ -914,7 +914,34 @@ namespace Framework.ViewModel
             ProcessedImage = Convert(ColorProcessedImage);
         }
         #endregion
-        
+
+        #endregion
+
+        #region Connected Components
+        private ICommand _connectedComponentsCommand;
+        public ICommand ConnectedComponentsCommand
+        {
+            get
+            {
+                if (_connectedComponentsCommand == null)
+                    _connectedComponentsCommand = new RelayCommand(ConnectedComponentsImg);
+                return _connectedComponentsCommand;
+            }
+        }
+
+        private void ConnectedComponentsImg(object parameter)
+        {
+            if (GrayInitialImage == null)
+            {
+                MessageBox.Show("Please load a grayscale image!");
+                return;
+            }
+
+            ClearProcessedCanvas(parameter as Canvas);
+
+            ColorProcessedImage = MorphologicalOperations.ConnectedComponents(GrayInitialImage);
+            ProcessedImage = Convert(ColorProcessedImage);
+        }
         #endregion
     }
 }
